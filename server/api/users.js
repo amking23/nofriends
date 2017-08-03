@@ -9,17 +9,23 @@ router.get('/', (req, res, next) => {
     // send everything to anyone who asks!
     attributes: ['firstName', 'lastName', 'email', 'imageUrl', 'description', 'id']
   })
-    .then(users => res.json(users))
+    .then(users => {
+      res.json(users)
+    })
     .catch(next)
 })
 
-router.get('/test', (req, res, next) => {
-  User.findById(1)
-    .then(foundUser => {
-      console.dir(foundUser)
-      foundUser.getGroups()
-    })
-    .then(gottenGroups => res.json(gottenGroups))
+router.get('/groups/:userId', (req, res, next) => {
+  User.findById(req.params.userId)
+    .then(foundUser => foundUser.getGroup())
+    .then(usersGroups => {res.json(usersGroups)})
+    .catch(next)
+})
+
+router.get('/friends/:userId', (req, res, next) => {
+  User.findById(req.params.userId)
+    .then(foundUser => foundUser.getFriend())
+    .then(usersFriends => {res.json(usersFriends)})
     .catch(next)
 })
 

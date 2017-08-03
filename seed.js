@@ -58,6 +58,23 @@ const groupAssociations = [
   {groupId: 15, userId: 6}, {groupId: 15, userId: 10}, {groupId: 15, userId: 13},
 ];
 
+const friendAssociations = [
+  {userId: 1, friendId: 2}, {userId: 1, friendId: 3}, {userId: 1, friendId: 4}, {userId: 1, friendId: 5}, {userId: 1, friendId: 7}, {userId: 1, friendId: 8}, {userId: 1, friendId: 9}, {userId: 1, friendId: 11}, {userId: 1, friendId: 12}, {userId: 1, friendId: 14}, {userId: 1, friendId: 15}, {userId: 1, friendId: 16}, {userId: 1, friendId: 17},
+  {userId: 2, friendId: 1}, {userId: 2, friendId: 3}, {userId: 2, friendId: 4}, {userId: 2, friendId: 5}, {userId: 2, friendId: 15}, {userId: 2, friendId: 16},
+  {userId: 3, friendId: 1}, {userId: 3, friendId: 2}, {userId: 3, friendId: 4}, {userId: 3, friendId: 5}, {userId: 3, friendId: 12}, {userId: 3, friendId: 15}, {userId: 3, friendId: 16},
+  {userId: 4, friendId: 1}, {userId: 4, friendId: 2}, {userId: 4, friendId: 3}, {userId: 4, friendId: 5}, {userId: 4, friendId: 15}, {userId: 4, friendId: 16},
+  {userId: 5, friendId: 1}, {userId: 5, friendId: 2}, {userId: 5, friendId: 3}, {userId: 5, friendId: 4}, {userId: 5, friendId: 12}, {userId: 5, friendId: 15},
+  {userId: 7, friendId: 1},
+  {userId: 8, friendId: 1}, {userId: 8, friendId: 9}, {userId: 8, friendId: 11}, {userId: 8, friendId: 14}, {userId: 8, friendId: 17},
+  {userId: 9, friendId: 1}, {userId: 9, friendId: 8}, {userId: 9, friendId: 11}, {userId: 9, friendId: 14}, {userId: 9, friendId: 17},
+  {userId: 11, friendId: 1}, {userId: 11, friendId: 8}, {userId: 11, friendId: 9}, {userId: 11, friendId: 14}, {userId: 11, friendId: 17},
+  {userId: 12, friendId: 1}, {userId: 12, friendId: 3}, {userId: 12, friendId: 15}, {userId: 12, friendId: 16},
+  {userId: 14, friendId: 1}, {userId: 14, friendId: 8}, {userId: 14, friendId: 9}, {userId: 14, friendId: 11}, {userId: 14, friendId: 16}, {userId: 14, friendId: 17},
+  {userId: 15, friendId: 1}, {userId: 15, friendId: 3}, {userId: 15, friendId: 5}, {userId: 15, friendId: 12}, {userId: 15, friendId: 16},
+  {userId: 16, friendId: 1}, {userId: 16, friendId: 3}, {userId: 16, friendId: 12}, {userId: 16, friendId: 15},
+  {userId: 17, friendId: 1}, {userId: 17, friendId: 8}, {userId: 17, friendId: 9}, {userId: 17, friendId: 11}, {userId: 17, friendId: 14}
+];
+
 
 
 const seed = () => {
@@ -76,6 +93,10 @@ const seedAssociations = () => {
     let GroupAssociations = db.models.groupAssociations;
     GroupAssociations.findOrCreate({where: groupAssociation})
   }))
+  Promise.all(friendAssociations.map(friendAssociation => {
+    let FriendAssociations = db.models.friendAssociations;
+    FriendAssociations.findOrCreate({where: friendAssociation})
+  }))
 }
 
 module.exports = seed;
@@ -83,7 +104,7 @@ module.exports = seed;
 
 const main = () => {
   console.log('Syncing db...');
-  db.sync({ force: false })
+  db.sync({ force: true })
     .then(() => {
       console.log('Seeding databse...');
       return seed()
